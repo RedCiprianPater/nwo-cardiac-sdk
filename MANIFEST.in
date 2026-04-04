@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+include requirements.txt
+include CHANGELOG.md
+recursive-include src/nwo_cardiac *.pyecursive-include api *.php
+recursive-include docs *.md
+recursive-include examples *.py
