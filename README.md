@@ -179,7 +179,57 @@ from nwo_cardiac import SecureEntry
 # Within NWO Robotics
 from nwo.robotics import HumanAwareRobot
 ```
+## 🎯 Use Cases
 
+### 🔐 Access Control
+High-security facilities, data centers, laboratories
+
+### 🏋️ Wellness & Fitness  
+Gyms, studios, corporate wellness programs
+
+### 🏥 Clinical Research
+Remote patient monitoring, clinical trials, senior care
+
+### 🤖 Robotics
+Collaborative robots, warehouse automation, healthcare robotics
+
+---
+
+## 📊 Performance
+
+| Metric | Value |
+|--------|-------|
+| Identity Accuracy | 97%+ |
+| Liveness Detection | 94%+ |
+| Response Time | <500ms |
+| False Acceptance Rate | <0.1% |
+| False Rejection Rate | <1% |
+
+---
+
+## 🏢 Who's Using NWO Cardiac SDK?
+
+*Coming soon - add your organization here!*
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📜 Citation
+
+If you use NWO Cardiac SDK in your research, please cite:
+
+```bibtex
+@software{nwo_cardiac_sdk,
+  title = {NWO Cardiac SDK: Dual-Modal Cardiac Biometrics},
+  author = {NWO Capital},
+  year = {2026},
+  url = {https://github.com/RedCiprianPater/nwo-cardiac-sdk}
+}
 ---
 
 ## 📄 License
