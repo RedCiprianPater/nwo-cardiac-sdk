@@ -4,6 +4,7 @@
 
 WiFi CSI (contactless) + BLE Wearables (identity-grade) for robust biometric verification.
 
+[![PyPI version](https://badge.fury.io/py/nwo-cardiac.svg)](https://badge.fury.io/py/nwo-cardiac)
 ---
 
 ## 🎯 Key Insight
