@@ -301,8 +301,7 @@ MIT License — See [LICENSE](./LICENSE)
 
 ## Support
 
-- **Discord:** [NWO Community](https://discord.gg/nwo)
-- **Email:** support@nwo.capital
+- **Email:** state@nwo.capital
 - **GitHub Issues:** [Report bugs](https://github.com/RedCiprianPater/nwo-cardiac-sdk/issues)
 
 ---
