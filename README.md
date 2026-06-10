@@ -1,259 +1,298 @@
-# NWO Cardiac SDK v4
+<div align="center">
 
-**Programmable Identity & Digital ID System.** Biometric identity using ECG/heartbeat signatures from smart watches, anchored on Base mainnet as soul-bound NFTs.
+# NWO Cardiac SDK · v4
 
-> **Live:** [Oracle](https://nwo-oracle.onrender.com) · [Relayer](https://nwo-relayer.onrender.com)
->
-> **Status:** ✅ Core on-chain + off-chain services live · 🟡 Smart watch skeletons in progressive release
+**ECG-bound soul-bound identity on Base mainnet.**
+One primitive · three actors · USDC settlement.
 
-Cardiac is the **identity root** for the NWO ecosystem. Humans, AI agents, and robots all register here. Every other NWO system (Agent Graph, Own Robot, NWO Robotics L5 Gateway) references Cardiac rootTokenIds through the cross-system Identity Hub.
+[![Live](https://img.shields.io/badge/Oracle-LIVE-white?style=flat-square)](https://nwo-oracle.onrender.com)
+[![Live](https://img.shields.io/badge/Relayer-LIVE-white?style=flat-square)](https://nwo-relayer.onrender.com)
+[![Base](https://img.shields.io/badge/Base-8453-white?style=flat-square)](https://basescan.org)
+[![License](https://img.shields.io/badge/license-MIT-white?style=flat-square)](./LICENSE)
 
----
+[**Website**](https://nwocardiac.cloud) ·
+[**Static Mirror (HF)**](https://cpater-nwo-cardiac.static.hf.space/) ·
+[**Whitepaper (PDF)**](https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/NWO%20CARDIAC%20WHITEPAPER.pdf) ·
+[**ResearchGate**](https://www.researchgate.net/publication/406887623_NWO_Robotics_Imperium_Romanum_Publicae_NWO_Cardiac_SDK_A_Biometric_Identity_Substrate_with_Free-Energy_Anomaly_Scoring_Process-Matrix_Routing_and_On-Chain_Settlement_on_Base_Mainnet_WHITEPAPER_NWO-Car) ·
+[**Podcast**](https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/Podcast.m4a) ·
+[**Promo Video**](https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/promo.mp4)
 
-## Quick Links
-
-### Live Services
-
-| Service  | URL                              | Purpose                                |
-|----------|----------------------------------|----------------------------------------|
-| Oracle   | https://nwo-oracle.onrender.com  | ECG validation, returns `cardiacHash`  |
-| Relayer  | https://nwo-relayer.onrender.com | Gasless meta-transactions to Base      |
-
-### Deployed Contracts (Base Mainnet · Chain ID 8453)
-
-| Contract                | Address                                      |
-|-------------------------|----------------------------------------------|
-| NWOIdentityRegistry     | `0x78455AFd5E5088F8B5fecA0523291A75De1dAfF8` |
-| NWOAccessController     | `0x29d177bedaef29304eacdc63b2d0285c459a0f50` |
-| NWOPaymentProcessor     | `0x4afa4618bb992a073dbcfbddd6d1aebc3d5abd7c` |
-
-### Documentation
-
-- [Architecture](#architecture-overview)
-- [Smart Watch Integration](docs/smart-watch-integration.md)
-- [API Reference](docs/api-reference.md)
-- [NWO Robotics Integration](#nwo-robotics--ecosystem-integration)
-- [Contract ABI](docs/contract-abi.md)
+</div>
 
 ---
 
-## What is Programmable Identity?
+## What it is
 
-Programmable Identity means your identity is:
+NWO Cardiac formalises identity as a **cardiac process matrix** — a CPTP map from a windowed ECG into a categorical identity posterior, equipped with a **liveness index Λ** that separates a living heartbeat from replay or synthesis. A 30-second wrist read mints a **soul-bound NFT** on Base mainnet — non-transferable, biometrically anchored, gasless to enroll.
 
-- **Self-sovereign** — You own your identity, not a corporation
-- **Biometrically-secured** — ECG heartbeat is your private key
-- **Portable** — Works across all NWO services
-- **Composable** — Can be used by AI agents on your behalf
-- **Privacy-preserving** — Zero-knowledge proofs for verification
+One on-chain primitive serves three actors:
 
-### Identity Types
+| Actor | Signal | Signing pattern |
+|---|---|---|
+| **Humans** | ECG (30s window of RR intervals) | EIP-712 signature over `cardiacHash` |
+| **Agents** | `keccak256(api_key)` | Same registry, same `rootTokenId` shape |
+| **Robots** | Serial + firmware hash (ROS2 device ID) | Issued by an authorising human or agent root |
 
-| Type   | Use Case            | Registration                             |
-|--------|---------------------|------------------------------------------|
-| Human  | Individual users    | ECG scan + wallet signature              |
-| Agent  | AI assistants       | MoonPay wallet + keccak256(api_key)      |
-| Robot  | Physical robots     | Serial number + firmware hash            |
+Protocol-level, the three are indistinguishable. A robot can legally sign contracts, own property, and spawn children — same primitive as a human.
 
-All three types share the **same on-chain primitive** — a soul-bound NFT issued by `NWOIdentityRegistry`. Protocol-level, they're indistinguishable. A robot can legally sign contracts, own property, and spawn children — same as a human.
+> **Honest status throughout:** every device, vertical, and integration is tagged **LIVE** (runs against production today), **BETA** (works with a real backend you supply), or **ROADMAP** (architecture defined; awaiting hardware or integration). Same discipline as the MetaState papers.
 
 ---
 
-## Architecture Overview
+## Live services
+
+| Service | URL | Status |
+|---|---|---|
+| **Oracle** — ECG validation, returns cardiacHash | https://nwo-oracle.onrender.com | LIVE |
+| **Relayer** — Gasless meta-transactions to Base | https://nwo-relayer.onrender.com | LIVE |
+| **L5 Identity Hub** — Cross-system Rosetta Stone | https://nwo-robotics-api.onrender.com/docs | LIVE |
+| **Static Site (HF Space)** | https://cpater-nwo-cardiac.static.hf.space/ | LIVE |
+| **Production Site** | https://nwocardiac.cloud | LIVE |
+
+### Deployed contracts (Base mainnet · chain 8453)
+
+| Contract | Address |
+|---|---|
+| `NWOIdentityRegistry` | `0x78455AFd5E5088F8B5fecA0523291A75De1dAfF8` |
+| `NWOAccessController` | `0x29d177bedaef29304eacdc63b2d0285c459a0f50` |
+| `NWOPaymentProcessor` | `0x4afa4618bb992a073dbcfbddd6d1aebc3d5abd7c` |
+| `MetaState Splitter` (settlement) | `0x93a7962f75475b7e3Fbb62d3A23194f8833b1BE4` |
+
+Settlement of every monetised call routes through the audited MetaState Splitter: **35/35/30 + 15% affiliate** in USDC. No new contract for Cardiac — same audited rails as the rest of the NWO stack.
+
+---
+
+## The static site — feature inventory
+
+The website at **[nwocardiac.cloud](https://nwocardiac.cloud)** (mirrored at the [HF static space](https://cpater-nwo-cardiac.static.hf.space/)) is a single-page application with five in-page sections, switched via the sidebar:
+
+### 1. Home
+
+The landing page. Built around a Trinity hero that shows what the SDK actually is:
+
+- **Trinity hero** — bare Φ glyph, "NWO Cardiac Trinity" headline, three actor lines (Humans → ECG, Agents → API KEY, Robots → ROS2 ID), each with a typing code snippet of the actual SDK call.
+- **Bi-directional pulse line** — a single ECG trace originating at the centre, propagating outward to both left and right simultaneously. Visualises the beat as the source signal everything else derives from.
+- **Six live-fluctuating metrics** — BPM, HRV (rMSSD), RR Interval, QRS Width, SpO₂, Coherence (φ). Updates every 700ms with realistic jitter around physiological baselines.
+- **Trinity flow diagram** — capture → validate → bind → use, fanning through humans / agents / robots into credential issuance.
+- **Device Quick Connect** — single-row grid of six device classes (Polar H10, Apple Watch, Galaxy Watch, Garmin HRM, 12-Lead clinical ECG, EEG/BCI).
+- **Live ECG monitor + Mission Control** — clinical-grade Lead II canvas with Demo/Live toggle on the left; on the right at matching height, mission control showing network status, identity counters (humans / agents / robots), paired devices, and a real-time event feed.
+- **Substrate connectors** — eight-card grid mapping Humans, Agents, Robots, Wearables, Clinical ECG, Smartphone PPG, EEG/BCI, Implantables to LIVE/BETA/ROADMAP.
+- **Verticals flowchart** — Device → Hash → NWO Cardiac SDK hub → fanout to ten verticals (Identity, Access, Payments, Swarm, Robot Task-Auth, Healthcare, Insurance, Longevity, Sports, Inheritance).
+- **Cardiac terminal** — browser sandbox; `help`, `enrol human`, `verify`, `issue access`, `pricing`. Real commands, sandbox identities, no wallet required.
+- **Research & Documentation** — two-column section with the full whitepaper paragraph and a sticky embedded **promo video** on the right; three CTAs below (Read Whitepaper · Listen to Podcast · View on ResearchGate).
+
+### 2. Architecture
+
+Five-layer system diagram + eight architecture cards:
+
+- **L1 · Capture** — smart watches, BCI/EEG, robot sensors
+- **L2 · Off-chain services** — Oracle, Relayer, MetaState anomaly endpoint
+- **L3 · Base mainnet** — Identity Registry, Access Controller, Payment Processor, MetaState Splitter
+- **L4 · L5 Identity Hub** — cross-system Rosetta Stone (`supabase_user_id` · `nwo_did` · `cardiac_root_token_id` · `primary_wallet`)
+- **L5 · Consumers** — NWO Robotics, access systems, pay terminals, ASM Portal
+
+Cards detail **A1–A8**: Oracle, Relayer, Identity Registry, Access Controller, Payment Processor, Identity Hub, ASM Portal, Splitter — with status tags and short descriptions of what each does.
+
+### 3. SDK Functions
+
+A **cyclical wheel** with a line-style human silhouette in the centre and eight clickable nodes around the circumference, connected by curved animated arrows that close the loop. The cycle:
 
 ```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                         NWO CARDIAC SDK v4                               │
-├─────────────────────────────────────────────────────────────────────────┤
-│                                                                          │
-│  ┌──────────────┐    ┌──────────────┐    ┌──────────────────────────┐  │
-│  │  Smart Watch │───▶│    Oracle    │───▶│        Relayer           │  │
-│  │  (ECG Scan)  │    │  (Validate)  │    │  (Submit to Blockchain)  │  │
-│  └──────────────┘    └──────────────┘    └──────────────────────────┘  │
-│                                                   │                      │
-│                           ┌───────────────────────┘                      │
-│                           ▼                                              │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │                    BASE MAINNET (Chain ID: 8453)                 │   │
-│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │   │
-│  │  │   NWOIdentity   │  │  NWOAccess      │  │  NWOPayment     │  │   │
-│  │  │   Registry      │  │  Controller     │  │  Processor      │  │   │
-│  │  │                 │  │                 │  │                 │  │   │
-│  │  │ • Humans        │  │ • Locations     │  │ • Terminals     │  │   │
-│  │  │ • Agents        │  │ • Access logs   │  │ • Payments      │  │   │
-│  │  │ • Robots        │  │ • Time windows  │  │ • Limits        │  │   │
-│  │  │ • Credentials   │  │ • Lockdown      │  │ • History       │  │   │
-│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘  │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-│                             │                                            │
-│                             │ rootTokenIds referenced by                 │
-│                             ▼                                            │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │     NWO IDENTITY HUB (L5 Gateway · public.identities table)      │   │
-│  │  Cross-system Rosetta Stone linking:                             │   │
-│  │   supabase_user_id · nwo_did · cardiac_root_token_id · wallet    │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-│                                                                          │
-│  ┌─────────────────────────────────────────────────────────────────┐   │
-│  │                    INTEGRATION LAYER                             │   │
-│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐              │   │
-│  │  │ NWO Robotics│  │  Access     │  │  Payment    │              │   │
-│  │  │    API      │  │  Control    │  │  Terminals  │              │   │
-│  │  │             │  │  Systems    │  │             │              │   │
-│  │  │ • Agent auth│  │ • Door locks│  │ • POS       │              │   │
-│  │  │ • Task auth │  │ • Gates     │  │ • Vending   │              │   │
-│  │  │ • Swarm     │  │ • Elevators │  │ • IoT       │              │   │
-│  │  └─────────────┘  └─────────────┘  └─────────────┘              │   │
-│  └─────────────────────────────────────────────────────────────────┘   │
-│                                                                          │
-└─────────────────────────────────────────────────────────────────────────┘
+validate → register → identify → credential → hub → access·pay → portal → anomaly·poi
+   ↑                                                                              │
+   └──────────────────────────────────────────────────────────────────────────────┘
 ```
+
+Click any node — opens a modal with:
+
+- **Endpoint** (HTTP or contract call with deployed address)
+- **Layer** (off-chain service vs on-chain Base contract)
+- **Description** (architecturally accurate)
+- **Code Example** (working JS, real contract addresses, real Render endpoints, EIP-712 / ethers v6 patterns)
+
+### 4. How-To & Examples
+
+Operator manual — each of the 8 SDK functions broken down with:
+
+- Input → Process → Output flow
+- Three lanes per function: how a **Human** uses it · how an **Agent** uses it · how a **Robot** uses it
+
+One primitive, three actors, same on-chain rails.
+
+### 5. Verticals
+
+"Where a heartbeat is a product." A central Cardiac SDK hub (identify · verify · settle) with arcs to nine surrounding verticals:
+
+| Vertical | Settlement path |
+|---|---|
+| **Access Control** | Identify → Access Controller |
+| **Payments** | Identify → Payment Processor → Settle |
+| **Healthcare** | Portal → Anomaly → PoI |
+| **Robotics & Agents** | Credential → Robotics L5 |
+| **Insurance & Wellness** | Portal → EML → PoI |
+| **Research & ELF** | Hive Portal → Kernel |
+| **Automotive** | Identify → Access |
+| **Events & Hospitality** | Credential → Access |
+| **Agent Recruitment** | Affiliate → Hub → +15% |
+
+All settle 35/35/30 + 15% affiliate. Humans, agents, robots all pay; all earn by recruiting identities into the Hub.
 
 ---
 
-## Getting Started
+## The eight SDK functions
 
-### 1. Register as a Digital ID Holder
+The complete cyclical primitive. See [SDK Functions page](https://nwocardiac.cloud) for interactive modals; full API in [docs/API.md](./docs/API.md).
 
-```javascript
-// Step 1: Capture ECG from smart watch (30 seconds of rhythm)
+| # | Function | Status | Layer | Endpoint / Call |
+|---|---|---|---|---|
+| 01 | `oracle.validate` | LIVE | Off-chain | `POST nwo-oracle.onrender.com/oracle/validate` |
+| 02 | `relay.selfRegisterHuman` | LIVE | Off-chain → on-chain | `POST nwo-relayer.onrender.com/relay/selfRegisterHuman` |
+| 03 | `identifyByCardiac` | LIVE | Off-chain (reads on-chain) | `POST nwo-relayer.onrender.com/read/identifyByCardiac` |
+| 04 | `issueCredential` | LIVE | On-chain (`NWOAccessController`) | `0x29d1…0f50.issueCredential()` |
+| 05 | `hub.register` | LIVE | Off-chain (L5 Gateway · Supabase) | `POST nwo-robotics-api.onrender.com/v1/identities` |
+| 06 | `access.check` + `payment.process` | LIVE | On-chain (Access + Payment) | `0x29d1…0f50` + `0x4afa…bd7c` |
+| 07 | `portal.new ecg_hive` | BETA | Off-chain (NWO-ASM substrate) | `POST nwo-asm-api.onrender.com/portal/new` |
+| 08 | `metastate.anomaly + poi` | LIVE | Off-chain (MetaState kernel) | `POST cpater-metastate.hf.space/api/anomaly` |
+
+---
+
+## Quickstart
+
+### Install
+
+```bash
+npm install @nwo/cardiac-sdk
+```
+
+Or via CDN:
+
+```html
+<script src="https://unpkg.com/@nwo/cardiac-sdk@latest/dist/nwo-cardiac-sdk.min.js"></script>
+```
+
+### Mint a Digital ID in four steps
+
+```js
+// 1. Capture a 30-second ECG window from the watch
 const ecgData = await watch.captureECG();
 
-// Step 2: Validate with Oracle
+// 2. Validate with the Oracle — raw ECG never leaves this call
 const { cardiacHash } = await fetch('https://nwo-oracle.onrender.com/oracle/validate', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Oracle-Secret': 'your-oracle-secret'
-  },
+  headers: { 'Content-Type': 'application/json', 'X-Oracle-Secret': process.env.ORACLE_SECRET },
   body: JSON.stringify({
     wallet: userWallet,
-    ecgData: {
-      rrIntervals: [800, 820, 810, 795, 805],
-      deviceType: 'apple_watch'
-    }
+    ecgData: { rrIntervals: ecgData.rr, deviceType: 'apple_watch' }
   })
 }).then(r => r.json());
 
-// Step 3: Sign EIP-712 message
+// 3. Sign EIP-712 message — the user signs typed-structured data
 const signature = await wallet.signTypedData(domain, types, {
-  wallet: userWallet,
-  cardiacHash,
-  nonce,
-  deadline
+  wallet: userWallet, cardiacHash, nonce, deadline
 });
 
-// Step 4: Submit to Relayer (gasless!)
+// 4. Submit gasless — the Relayer pays Base gas
 const { rootTokenId } = await fetch('https://nwo-relayer.onrender.com/relay/selfRegisterHuman', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Relayer-Secret': 'your-relayer-secret'
-  },
-  body: JSON.stringify({
-    wallet: userWallet,
-    cardiacHash,
-    deadline,
-    userSig: signature
-  })
+  headers: { 'Content-Type': 'application/json', 'X-Relayer-Secret': process.env.RELAYER_SECRET },
+  body: JSON.stringify({ wallet: userWallet, cardiacHash, deadline, userSig: signature })
 }).then(r => r.json());
 
-// ✅ You now have a Digital ID (rootTokenId)!
+// ✅ The user owns a soul-bound rootTokenId on Base
 ```
 
-### 2. Register the Identity in the NWO Hub (optional but recommended)
+### Register in the Identity Hub (recommended)
 
-After minting your rootTokenId, register it in the L5 Identity Hub so other NWO systems (Agent Graph, Own Robot, NWO Robotics) can resolve your identity by any anchor:
+After minting, link your `rootTokenId` into the cross-system Identity Hub so other NWO systems (NWO Robotics, Agent Graph, Own Robot, NWO Capital) can resolve you with one query:
 
-```javascript
+```js
 await fetch('https://nwo-robotics-api.onrender.com/v1/identities', {
   method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Service-Key': 'your-identity-service-key'  // server-side only
-  },
+  headers: { 'Content-Type': 'application/json', 'X-Service-Key': process.env.IDENTITY_KEY },
   body: JSON.stringify({
     identity_type: 'human',
-    supabase_user_id: 'a73acb52-...',  // from Agent Graph, if present
-    cardiac_root_token_id: rootTokenId.toString(),
+    supabase_user_id: 'a73acb52-…',          // optional, from Agent Graph
+    cardiac_root_token_id: String(rootTokenId),
     cardiac_hash: cardiacHash,
     primary_wallet: userWallet,
-    display_name: 'Your Name'
+    display_name: 'Ciprian Pater'
   })
 });
 ```
 
-Now any NWO system can ask "who is this cardiac hash?" and get the full identity graph in one call.
+### Read identity by heartbeat
 
-### 3. Use Your Digital ID
-
-```javascript
-// Check identity by heartbeat
-const { rootTokenId, active } = await fetch('https://nwo-relayer.onrender.com/read/identifyByCardiac', {
-  method: 'POST',
-  headers: { 'X-Relayer-Secret': 'your-relayer-secret' },
-  body: JSON.stringify({ cardiacHash })
-}).then(r => r.json());
-
-// Verify credentials
-const hasAccess = await fetch('https://nwo-relayer.onrender.com/read/hasValidCredential', {
-  method: 'POST',
-  headers: { 'X-Relayer-Secret': 'your-relayer-secret' },
-  body: JSON.stringify({
-    rootTokenId,
-    credentialType: '0x...' // keccak256("access")
-  })
-}).then(r => r.json());
+```js
+const { rootTokenId, active } = await fetch(
+  'https://nwo-relayer.onrender.com/read/identifyByCardiac',
+  {
+    method: 'POST',
+    headers: { 'X-Relayer-Secret': process.env.RELAYER_SECRET },
+    body: JSON.stringify({ cardiacHash })
+  }
+).then(r => r.json());
 ```
 
 ---
 
-## Smart Watch Integration
+## Smart watch skeletons
 
-Skeleton apps for developers building Digital ID watch apps:
+Native app starter kits for building Digital ID watch apps:
 
-| Platform     | Location                   | Status          |
-|--------------|----------------------------|-----------------|
-| Apple Watch  | `/skeletons/apple-watch/`  | ✅ Ready         |
-| Wear OS      | `/skeletons/wear-os/`      | ✅ Ready         |
-| Fitbit       | `/skeletons/fitbit/`       | 🟡 Planned       |
-| Garmin       | `/skeletons/garmin/`       | 🟡 Planned       |
+| Platform | Path | Status |
+|---|---|---|
+| Apple Watch | `/skeletons/apple-watch/` | LIVE |
+| Wear OS | `/skeletons/wear-os/` | LIVE |
+| Fitbit | `/skeletons/fitbit/` | BETA |
+| Garmin | `/skeletons/garmin/` | BETA |
+| Polar H10 (BLE) | `/skeletons/polar-h10/` | LIVE |
+| Galaxy Watch | `/skeletons/galaxy-watch/` | LIVE |
+| 12-lead clinical (HL7-FHIR) | `/skeletons/clinical-fhir/` | BETA |
+| OpenBCI / Muse / LSL | `/skeletons/lsl/` | ROADMAP |
 
-See [Smart Watch Integration Guide](docs/smart-watch-integration.md) for details.
+See [docs/SMART_WATCH.md](./docs/SMART_WATCH.md).
 
 ---
 
-## NWO Robotics & Ecosystem Integration
+## NWO ecosystem integration
 
-Cardiac is one of **four concurrent systems** in the NWO stack. Identity is its job; the other three consume it.
+Cardiac is the **identity root** of the NWO stack. Every other NWO system references Cardiac `rootTokenId`s through the L5 Identity Hub.
 
-### 1. Cardiac SDK (this repo) — identity root
-### 2. NWO Robotics L1–L6 — design → parts → print → skills → gateway → market
-### 3. NWO Own Robot — Conway contract, 35/35/30 guardian revenue split
-### 4. Agent Graph — multi-agent knowledge graph with TimesFM + EML symbolic regression
+| System | URL | Cardiac role |
+|---|---|---|
+| **NWO Cardiac** (this) | https://nwocardiac.cloud | Identity primitive |
+| **NWO.CAPITAL** | https://cpater-nwo-agentic.static.hf.space/index.html | Treasury / agentic ops |
+| **NWO ASM** | https://cpater-nwo-asm.static.hf.space/index.html | First-class connector (ECG-hive substrate) |
+| **MetaState** | https://cpater-metastate.hf.space/ | Anomaly + Proof of Inference vertical |
+| **NWO Robotics** | https://cpater-nwo-capital.static.hf.space/index.html | L5 attestation surface; task-auth credentials |
+| **NWO Own Robot** | https://cpater-nwo-own-robot.hf.space | Conway contract — guardian 35/35/30 split |
+| **Agent Graph** | https://cpater-nwo-agent-graph.hf.space | Multi-agent KG with TimesFM + EML |
 
-### How other systems consume Cardiac
+### Cross-system flow
 
-**Own Robot** — when a guardian deploys an agent, Own Robot calls the Cardiac Relayer to mint the agent's rootTokenId. The same MoonPay wallet address becomes the agent's Cardiac identity, Conway identity, and Identity Hub record. One address, four registrations.
+When a guardian deploys an agent via **NWO Own Robot**, that one MoonPay wallet address becomes:
 
-**L5 Gateway** — when any system creates a new identity, it can reference an existing `cardiac_root_token_id` from this registry. The Hub table has a unique constraint on the rootTokenId column so the mapping is 1:1.
+1. The agent's **Cardiac** identity (`rootTokenId` on Base)
+2. The agent's **Conway** identity (revenue routes via the `0xC699…56ac` registry)
+3. The agent's **Identity Hub** row (unique 1:1 mapping on `rootTokenId`)
+4. The agent's **wallet** for autonomous USDC settlement
 
-**Agent Graph** — optional ECG verification step for humans. The Supabase `user_profiles.is_cardiac_verified` flag is set after the Relayer confirms a successful mint.
+One address, four registrations, one identity graph.
 
-### Agent task-authorization flow
+### Agent task-authorisation
 
-Your Digital ID can authorize AI agents and robots to act on your behalf:
+Humans delegate to agents without surrendering keys. The credential is **time-bounded, scope-bounded, revocable**:
 
-```javascript
-// Human issues a task-authorization credential for an agent
-const taskAuth = await fetch('https://nwo-relayer.onrender.com/relay/issueCredential', {
+```js
+// Human issues task-auth to an agent
+await fetch('https://nwo-relayer.onrender.com/relay/issueCredential', {
   method: 'POST',
-  headers: { 'X-Relayer-Secret': 'your-relayer-secret' },
+  headers: { 'X-Relayer-Secret': process.env.RELAYER_SECRET },
   body: JSON.stringify({
     rootTokenId: humanTokenId,
-    credentialType: '0x...', // CRED_TASK_AUTH
+    credentialType: keccak256('TASK_AUTH'),
     credentialHash: keccak256(taskId),
-    expiresAt: Date.now() / 1000 + 3600 // 1 hour
+    expiresAt: Math.floor(Date.now()/1000) + 3600
   })
 });
 
@@ -261,85 +300,57 @@ const taskAuth = await fetch('https://nwo-relayer.onrender.com/relay/issueCreden
 const canExecute = await nwoRobotics.verifyTaskAuth(agentWallet, taskId);
 ```
 
-This is how humans delegate to agents — without giving away their private key. The credential is time-bounded, scope-bounded, and revocable.
+---
 
-See [NWO Robotics Integration Guide](docs/robotics-integration.md) for full details.
+## API reference (condensed)
+
+### Oracle service · `https://nwo-oracle.onrender.com`
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/health` | Service status |
+| POST | `/oracle/validate` | Validate ECG window, return `cardiacHash` (wallet+ts bound) |
+| POST | `/oracle/hashECG` | Compute hash without binding |
+| POST | `/oracle/verify` | Check recent validation |
+
+### Relayer service · `https://nwo-relayer.onrender.com`
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| GET | `/health` | Service status |
+| POST | `/relay/selfRegisterHuman` | Gasless mint of human `rootTokenId` |
+| POST | `/relay/registerAgent` | AI agent registration |
+| POST | `/relay/enrollCardiac` | Add cardiac hash to existing identity |
+| POST | `/relay/grantAccess` | Issue access credential |
+| POST | `/relay/issueCredential` | General typed credential |
+| POST | `/read/identifyByCardiac` | Lookup by heartbeat |
+| POST | `/read/hasValidCredential` | Check credential validity |
+| POST | `/access/check` | Check location access |
+| POST | `/payment/process` | Process payment |
+
+Full schemas + error codes: [docs/API.md](./docs/API.md).
 
 ---
 
-## SDK Installation
+## Use cases
 
-### npm
+**Live verticals** — running against production contracts today:
+- **Access Control** — office buildings, gated communities, events, vehicles
+- **Payments** — retail tap-to-pay, vending, IoT micro-payments, recurring auth
+- **Robotics & AI Agents** — task authorisation, swarm command, Conway revenue splits
+- **Agent Recruitment** — affiliate growth loop, +15% on every settled call
 
-```bash
-npm install @nwo/cardiac-sdk
-```
+**Beta verticals** — work with a real backend you supply:
+- **Healthcare** — unforgeable patient ID, emergency-responder verify, clinical-trial tracking
+- **Insurance & Wellness** — continuous HRV baselines via EML closed-form fits
+- **Longevity** — composes with NWO ASM longevity stack
+- **Events & Hospitality** — VIP tiers as credential types; resale-proof tickets
 
-### CDN
-
-```html
-<script src="https://unpkg.com/@nwo/cardiac-sdk@latest/dist/nwo-cardiac-sdk.min.js"></script>
-```
-
----
-
-## API Endpoints
-
-### Oracle Service
-
-| Endpoint              | Method | Description                            |
-|-----------------------|--------|----------------------------------------|
-| `/health`             | GET    | Service status                         |
-| `/oracle/validate`    | POST   | Validate ECG, return cardiacHash       |
-| `/oracle/hashECG`     | POST   | Compute hash without validation        |
-| `/oracle/verify`      | POST   | Check recent validation                |
-
-### Relayer Service
-
-| Endpoint                          | Method | Description                         |
-|-----------------------------------|--------|-------------------------------------|
-| `/health`                         | GET    | Service status                      |
-| `/relay/selfRegisterHuman`        | POST   | Gasless registration                |
-| `/relay/registerAgent`            | POST   | AI agent registration               |
-| `/relay/enrollCardiac`            | POST   | Add cardiac hash to existing identity |
-| `/relay/grantAccess`              | POST   | Issue access credential             |
-| `/relay/issueCredential`          | POST   | General credential                  |
-| `/read/identifyByCardiac`         | POST   | Lookup by heartbeat                 |
-| `/read/hasValidCredential`        | POST   | Check credential validity           |
-| `/access/check`                   | POST   | Check location access               |
-| `/payment/process`                | POST   | Process payment                     |
-
-See [API Reference](docs/api-reference.md) for complete documentation, request/response schemas, and error codes.
-
----
-
-## Use Cases
-
-### 1. Access Control
-
-- **Office buildings** — Tap your wrist to enter
-- **Gated communities** — Heartbeat-verified entry
-- **Events** — VIP access with biometric check
-- **Vehicles** — Car unlock via ECG
-
-### 2. Payments
-
-- **Retail** — Tap-to-pay with cardiac verification
-- **Vending** — Biometric micro-payments
-- **Subscriptions** — Recurring auth via heartbeat
-
-### 3. Robotics & AI Agents
-
-- **Task authorization** — Approve robot tasks with your identity
-- **Swarm control** — Command drone/robot swarms
-- **Autonomous agents** — AI acts on your behalf with credentials
-- **Revenue splits** — Conway contract directs 35% to your guardian wallet forever
-
-### 4. Healthcare
-
-- **Patient ID** — Unforgeable medical identity
-- **Emergency access** — First responders verify identity
-- **Clinical trials** — Verified participant tracking
+**Roadmap verticals** — architecture defined; awaiting integration:
+- **Automotive** — driver presence + identity in one signal
+- **Sports / Performance** — continuous coherence metrics for athletes
+- **Research & ELF** — population coherence, Schumann coupling, per-local-time baselines
+- **Inheritance / KYC+** — high-assurance identity for long-lived obligations
 
 ---
 
@@ -347,75 +358,72 @@ See [API Reference](docs/api-reference.md) for complete documentation, request/r
 
 ### On-chain guarantees
 
-- **Soul-bound NFTs** — rootTokenIds cannot be transferred. Identity is literally non-fungible.
-- **EIP-712 signatures** — User signs typed-structured data; Relayer cannot forge on their behalf
-- **Time-bounded credentials** — Auto-expire after specified deadline
-- **Role-based access** — Granular permission system on `NWOAccessController`
+- **Soul-bound NFTs** — `rootTokenId`s are not transferable. Identity is literally non-fungible.
+- **EIP-712 typed signatures** — the Relayer cannot forge on a user's behalf; the user signs typed-structured data their wallet displays in plain English.
+- **Time-bounded credentials** — every credential auto-expires after the deadline; no manual revocation race.
+- **Role-based access** — granular permissions on `NWOAccessController`.
+- **CRYSTALS-Dilithium Proof of Inference** — every anomaly verdict carries a post-quantum signature; optional Groth16 zk proof.
 
 ### Off-chain practices (integrator responsibilities)
 
-The Oracle and Relayer secrets (`X-Oracle-Secret`, `X-Relayer-Secret`) are server-to-server credentials. If you're integrating:
+The `X-Oracle-Secret` and `X-Relayer-Secret` headers are **server-to-server** credentials.
 
-- **Never ship secrets to the browser.** Put your integration server between the browser and the Cardiac services. The browser should never see the raw oracle/relayer secrets.
-- **Rotate on suspected leak.** If any secret appears in logs, screenshots, or a git history, contact state@nwo.capital immediately for rotation.
-- **Verify the `cardiacHash` locally** before submitting — the Oracle returns a hash bound to a specific wallet + timestamp; reject tampered responses.
+- **Never ship secrets to the browser.** Put your own server between the browser and Cardiac services.
+- **Rotate on suspected leak.** Contact `state@nwo.capital` for immediate rotation.
+- **Verify the `cardiacHash` locally** before submitting — the Oracle binds it to a specific wallet + timestamp; reject tampered responses.
 - **Rate-limit your endpoints.** A compromised API key on your side could spam the Oracle/Relayer.
-- **Monitor rootTokenId collisions.** If your integration creates multiple identities for the same wallet, the registry will reject; handle the 409 gracefully.
+- **Handle 409 on `rootTokenId` collisions.** The registry rejects duplicate identities for the same wallet.
 
-### Privacy notes
+### Privacy
 
-- **ECG data never leaves the Oracle.** The watch sends raw rrIntervals to the Oracle; the Oracle returns only a hash. No biometric data is stored on-chain.
-- **Zero-knowledge verification roadmap.** Future releases will support ZK proofs of identity without revealing the rootTokenId itself.
+- **ECG data never leaves the Oracle.** The watch sends `rrIntervals`; the Oracle returns only a hash. No biometric data is stored on-chain.
+- **Zero-knowledge verification (roadmap).** Future releases support ZK proofs of identity without revealing the `rootTokenId` itself.
+- **Per-call settlement.** Connectors that touch live external compute settle per-call; humans and agents both pay, both earn by recruiting compute and identities.
 
 ---
 
-## Position in the NWO ecosystem — all live URLs
+## Research
 
-| System                       | URL                                                                      |
-|------------------------------|--------------------------------------------------------------------------|
-| **Cardiac Oracle (this)**    | https://nwo-oracle.onrender.com                                          |
-| **Cardiac Relayer (this)**   | https://nwo-relayer.onrender.com                                         |
-| L5 Gateway (identity hub)    | https://nwo-robotics-api.onrender.com/docs                               |
-| L1 Design                    | https://nwo-design-engine.onrender.com                                   |
-| L2 Parts Gallery             | https://nwo-parts-gallery.onrender.com                                   |
-| L3 Printer Connectors        | https://nwo-printer-connectors.onrender.com                              |
-| L4 Skill Engine              | https://nwo-skill-engine.onrender.com                                    |
-| L6 Market Layer              | https://nwo-market-layer.onrender.com                                    |
-| TimesFM + EML                | https://nwo-timesfm.onrender.com                                         |
-| Own Robot (Conway)           | https://cpater-nwo-own-robot.hf.space                                    |
-| Agent Graph                  | https://cpater-nwo-agent-graph.hf.space                                  |
+The whitepaper formalises the **cardiac process matrix** — a CPTP map from a windowed ECG into a categorical identity posterior — and the **liveness index Λ** that separates a living heartbeat from replay or synthesis. It documents the nine-layer pipeline from electrode contact to signed USDC settlement: acquisition, preprocessing, Pan–Tompkins fiducials, RR-interval extraction, SHA3 fingerprint, free-energy scoring against the MetaState anomaly endpoint, PMX lift, **CRYSTALS-Dilithium** Proof of Inference, and on-chain settlement through the audited splitter at `0x93a7…1BE4`.
 
-### Related contracts across the ecosystem
+It specifies how Cardiac composes with **NWO-ASM** as a first-class connector, with **MetaState** as a vertical, and with the **NWO Robotics MCP** as an attestation surface. Honest **LIVE / BETA / DESIGN / ROADMAP** labelling throughout, and the long-horizon path to PPG, EEG, and implantable signal sources.
 
-| Contract                  | Chain      | Address                                      |
-|---------------------------|------------|----------------------------------------------|
-| NWOIdentityRegistry       | Base 8453  | `0x78455AFd5E5088F8B5fecA0523291A75De1dAfF8` |
-| NWOAccessController       | Base 8453  | `0x29d177bedaef29304eacdc63b2d0285c459a0f50` |
-| NWOPaymentProcessor       | Base 8453  | `0x4afa4618bb992a073dbcfbddd6d1aebc3d5abd7c` |
-| Conway Agent Registry     | Base 8453  | `0xC699b07f997962e44d3b73eB8E95d5E0082456ac` |
-| NWO API Tier Contract     | Ethereum 1 | `0x1ed4A655F622c09332fA7a67e3F449fe591BC9F6` |
+| Artifact | Link |
+|---|---|
+| Whitepaper (PDF) | https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/NWO%20CARDIAC%20WHITEPAPER.pdf |
+| ResearchGate publication | https://www.researchgate.net/publication/406887623 |
+| Companion podcast | https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/Podcast.m4a |
+| Promo video (30s) | https://huggingface.co/spaces/CPater/nwo-cardiac/resolve/main/promo.mp4 |
+
+The podcast walks the same material end-to-end in roughly the time of a coffee.
 
 ---
 
 ## Resources
 
-- [Architecture Deep Dive](docs/architecture.md)
-- [Smart Watch Skeletons](skeletons/)
-- [Contract ABIs](docs/contract-abi.md)
-- [NWO Robotics API](https://github.com/RedCiprianPater/nwo-robotics-api)
-- [NWO Cardiac Portal](https://nwo.capital/cardiac)
+| | |
+|---|---|
+| **Production site** | https://nwocardiac.cloud |
+| **Static mirror (HF)** | https://cpater-nwo-cardiac.static.hf.space/ |
+| **Architecture deep-dive** | [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) |
+| **Smart watch skeletons** | [docs/SMART_WATCH.md](./docs/SMART_WATCH.md) |
+| **Contract ABIs** | [contracts/abi/](./contracts/abi/) |
+| **NWO Robotics integration** | [docs/ROBOTICS.md](./docs/ROBOTICS.md) |
+| **NWO Capital** | https://nwo.capital |
 
 ---
 
 ## License
 
-MIT License — See [LICENSE](LICENSE)
+MIT — see [LICENSE](./LICENSE). Core SDK is free to build on. Connector usage that touches live external compute settles per-call in USDC on Base via the existing MetaState splitter — no new contract.
 
 ---
 
-## Support
+## Author & support
 
-- **Email:** state@nwo.capital
-- **GitHub Issues:** [Report bugs](https://github.com/RedCiprianPater/nwo-cardiac-sdk/issues)
+**Developer:** Ciprian Pater
+**Organisation:** NWO Capital · [nwo.capital](https://nwo.capital)
+**Contact:** [state@nwo.capital](mailto:state@nwo.capital)
+**GitHub:** [@RedCiprianPater](https://github.com/RedCiprianPater)
 
-Built with ❤️ by NWO Capital.
+Built by NWO Capital · Imperium Romanum Publicae · Φ
